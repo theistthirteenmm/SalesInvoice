@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AlertCircle, FileText, Plus, Trash2, Upload, Download } from 'lucide-react';
 
-const API_URL = 'http://sales_backend:7023/api';
+const API_URL = 'http://10.8.0.1:7023/api';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('login');

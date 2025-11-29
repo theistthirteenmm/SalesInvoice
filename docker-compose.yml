@@ -25,7 +25,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: salespass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
-      - "7023:7023"
+      - "7023:8080"
 
   frontend:
     build:
