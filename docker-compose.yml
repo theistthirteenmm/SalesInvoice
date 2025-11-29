@@ -3,37 +3,38 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14
-    container_name: my_postgres
+    container_name: sales_postgres
     restart: always
     environment:
-      POSTGRES_DB: mydb
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypass
+      POSTGRES_DB: salesdb
+      POSTGRES_USER: salesuser
+      POSTGRES_PASSWORD: salespass
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   backend:
-    build: ./backend
-    container_name: my_backend
-    restart: always
+    build: .
+    container_name: sales_backend
     depends_on:
       - postgres
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/mydb
-      SPRING_DATASOURCE_USERNAME: myuser
-      SPRING_DATASOURCE_PASSWORD: mypass
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/salesdb
+      SPRING_DATASOURCE_USERNAME: salesuser
+      SPRING_DATASOURCE_PASSWORD: salespass
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
     ports:
-      - "8080:8080"
+      - "8080:7023"
 
   frontend:
-    build: ./frontend
-    container_name: my_frontend
-    restart: always
+    build:
+      context: ./invoice-frontend
+    container_name: sales_frontend
     ports:
-      - "3000:80"
+      - "3000:7024"
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
