@@ -1,16 +1,18 @@
 package com.example.salesinvoice.controller;
 
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.salesinvoice.dto.InvoiceDTO;
 import com.example.salesinvoice.entity.Invoice;
+import com.example.salesinvoice.entity.User;
 import com.example.salesinvoice.service.InvoiceService;
 import com.example.salesinvoice.service.JasperReportService;
-import com.example.salesinvoice.entity.User;
-import com.example.salesinvoice.dto.InvoiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -27,24 +29,61 @@ public class InvoiceController {
     @Autowired
     private JasperReportService reportService;
 
-    @PostMapping
-    public ResponseEntity<Invoice> createInvoice(
-            @RequestPart("invoice") InvoiceDTO invoiceDto,
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> createInvoice(
+            @RequestPart("invoice") String invoiceJson,
             @RequestPart(value = "logo", required = false) MultipartFile logo,
-            @AuthenticationPrincipal User user) throws IOException {
+            Authentication authentication) {
 
-        if (logo != null) {
-            invoiceDto.setLogo(logo.getBytes());
+        try {
+            // دریافت User از Authentication
+            User user = (User) authentication.getPrincipal();
+
+            // تبدیل JSON به DTO
+            InvoiceDTO invoiceDto = objectMapper.readValue(invoiceJson, InvoiceDTO.class);
+
+            // اگر لوگو آپلود شده بود
+            if (logo != null && !logo.isEmpty()) {
+                invoiceDto.setLogo(logo.getBytes());
+            }
+
+            // ایجاد فاکتور
+            Invoice invoice = invoiceService.createInvoice(invoiceDto, user);
+
+            System.out.println("✅ فاکتور با موفقیت ایجاد شد - ID: " + invoice.getId());
+
+            return ResponseEntity.ok(invoice);
+
+        } catch (IOException e) {
+            System.err.println("❌ خطا در پردازش داده‌ها: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("خطا در پردازش داده‌ها: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("❌ خطای غیرمنتظره: " + e.getMessage());
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body("خطای سرور: " + e.getMessage());
         }
-
-        Invoice invoice = invoiceService.createInvoice(invoiceDto, user);
-        return ResponseEntity.ok(invoice);
     }
 
     @GetMapping("/{id}/pdf")
-    public ResponseEntity<byte[]> generatePdf(@PathVariable Long id) {
+    public ResponseEntity<byte[]> generatePdf(
+            @PathVariable Long id,
+            Authentication authentication) {
+
         try {
+            // دریافت فاکتور
             Invoice invoice = invoiceService.findById(id);
+
+            // بررسی دسترسی کاربر
+            User user = (User) authentication.getPrincipal();
+            if (!invoice.getUser().getId().equals(user.getId())) {
+                return ResponseEntity.status(403).build();
+            }
+
+            // تولید PDF
             byte[] pdfBytes = reportService.generateInvoicePdf(invoice);
 
             HttpHeaders headers = new HttpHeaders();
@@ -55,10 +94,15 @@ public class InvoiceController {
                             .build()
             );
 
+            System.out.println("✅ PDF با موفقیت تولید شد - Invoice ID: " + id);
+
             return ResponseEntity.ok()
                     .headers(headers)
                     .body(pdfBytes);
+
         } catch (Exception e) {
+            System.err.println("❌ خطا در تولید PDF: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
     }

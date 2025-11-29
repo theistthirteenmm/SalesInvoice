@@ -3,6 +3,7 @@ package com.example.salesinvoice.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
+@ToString(exclude = "invoices")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
