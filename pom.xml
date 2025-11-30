@@ -111,14 +111,18 @@
         </dependency>
 
 
+<!--        <dependency>-->
+<!--            <groupId>net.sf.jasperreports</groupId>-->
+<!--            <artifactId>jasperreports-fonts</artifactId>-->
+<!--            <version>6.20.0</version>-->
+<!--            <scope>system</scope>-->
+<!--            <systemPath>${project.basedir}/src/main/resources/font/a.jar</systemPath>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports-fonts</artifactId>
             <version>6.20.0</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/src/main/resources/font/a.jar</systemPath>
         </dependency>
-
 
     </dependencies>
 

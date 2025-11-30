@@ -20,33 +20,34 @@
     <title>
         <band height="150">
             <!-- Logo -->
-            <image hAlign="Center" vAlign="Middle">
-                <reportElement x="0" y="10" width="100" height="80"/>
+            <image hAlign="Center" vAlign="Middle" onErrorType="Blank">
+                <reportElement x="455" y="10" width="100" height="80"/>
                 <imageExpression><![CDATA[$P{logo}]]></imageExpression>
             </image>
 
             <!-- Invoice Title -->
             <textField>
-                <reportElement x="150" y="30" width="400" height="40"/>
+                <reportElement x="50" y="30" width="400" height="40"/>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="24" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="24" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{invoiceTitle}]]></textFieldExpression>
             </textField>
 
-            <!-- Invoice Date -->
+            <!-- Invoice Date Label -->
             <staticText>
-                <reportElement x="350" y="100" width="80" height="30"/>
-                <textElement>
-                    <font size="12" isBold="true"/>
+                <reportElement x="320" y="100" width="80" height="30"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="12" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
                 <text><![CDATA[تاریخ فاکتور:]]></text>
             </staticText>
 
+            <!-- Invoice Date Value -->
             <textField>
-                <reportElement x="430" y="100" width="120" height="30"/>
-                <textElement>
-                    <font size="12"/>
+                <reportElement x="210" y="100" width="100" height="30"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font fontName="DejaVu Sans" size="12" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$P{invoiceDate}]]></textFieldExpression>
             </textField>
@@ -57,47 +58,47 @@
     <columnHeader>
         <band height="40">
             <staticText>
-                <reportElement x="0" y="10" width="250" height="30" mode="Opaque" backcolor="#E0E0E0"/>
+                <reportElement x="305" y="10" width="250" height="30" mode="Opaque" backcolor="#E8F4F8"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.0" lineColor="#3498DB"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="12" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="12" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
-                <text><![CDATA[شرح کالا/خدمات]]></text>
+                <text><![CDATA[شرح کالا / خدمات]]></text>
             </staticText>
 
             <staticText>
-                <reportElement x="250" y="10" width="85" height="30" mode="Opaque" backcolor="#E0E0E0"/>
+                <reportElement x="220" y="10" width="85" height="30" mode="Opaque" backcolor="#E8F4F8"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.0" lineColor="#3498DB"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="12" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="12" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
                 <text><![CDATA[تعداد]]></text>
             </staticText>
 
             <staticText>
-                <reportElement x="335" y="10" width="110" height="30" mode="Opaque" backcolor="#E0E0E0"/>
+                <reportElement x="110" y="10" width="110" height="30" mode="Opaque" backcolor="#E8F4F8"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.0" lineColor="#3498DB"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="12" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="12" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
-                <text><![CDATA[قیمت واحد]]></text>
+                <text><![CDATA[قیمت واحد (ریال)]]></text>
             </staticText>
 
             <staticText>
-                <reportElement x="445" y="10" width="110" height="30" mode="Opaque" backcolor="#E0E0E0"/>
+                <reportElement x="0" y="10" width="110" height="30" mode="Opaque" backcolor="#E8F4F8"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.0" lineColor="#3498DB"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="12" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="12" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
-                <text><![CDATA[مبلغ کل]]></text>
+                <text><![CDATA[مبلغ کل (ریال)]]></text>
             </staticText>
         </band>
     </columnHeader>
@@ -105,46 +106,46 @@
     <!-- Detail Band -->
     <detail>
         <band height="30">
-            <textField>
-                <reportElement x="0" y="0" width="250" height="30"/>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="305" y="0" width="250" height="30"/>
                 <box>
-                    <pen lineWidth="0.5"/>
+                    <pen lineWidth="0.5" lineColor="#BDC3C7"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="10"/>
+                    <font fontName="DejaVu Sans" size="10" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{itemName}]]></textFieldExpression>
             </textField>
 
             <textField>
-                <reportElement x="250" y="0" width="85" height="30"/>
+                <reportElement x="220" y="0" width="85" height="30"/>
                 <box>
-                    <pen lineWidth="0.5"/>
+                    <pen lineWidth="0.5" lineColor="#BDC3C7"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="10"/>
+                    <font fontName="DejaVu Sans" size="10" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
             </textField>
 
-            <textField pattern="#,##0.00">
-                <reportElement x="335" y="0" width="110" height="30"/>
+            <textField pattern="#,##0">
+                <reportElement x="110" y="0" width="110" height="30"/>
                 <box>
-                    <pen lineWidth="0.5"/>
+                    <pen lineWidth="0.5" lineColor="#BDC3C7"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="10"/>
+                    <font fontName="DejaVu Sans" size="10" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{unitPrice}]]></textFieldExpression>
             </textField>
 
-            <textField pattern="#,##0.00">
-                <reportElement x="445" y="0" width="110" height="30"/>
+            <textField pattern="#,##0">
+                <reportElement x="0" y="0" width="110" height="30"/>
                 <box>
-                    <pen lineWidth="0.5"/>
+                    <pen lineWidth="0.5" lineColor="#BDC3C7"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="10"/>
+                    <font fontName="DejaVu Sans" size="10" pdfEncoding="Identity-H"/>
                 </textElement>
                 <textFieldExpression><![CDATA[$F{totalPrice}]]></textFieldExpression>
             </textField>
@@ -153,27 +154,28 @@
 
     <!-- Summary Band -->
     <summary>
-        <band height="60">
+        <band height="80">
             <staticText>
-                <reportElement x="335" y="20" width="110" height="30" mode="Opaque" backcolor="#D0D0D0"/>
+                <reportElement x="110" y="30" width="110" height="40" mode="Opaque" backcolor="#3498DB"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.5" lineColor="#2980B9"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="14" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="16" isBold="true" pdfEncoding="Identity-H"/>
+                    <paragraph lineSpacing="Single"/>
                 </textElement>
                 <text><![CDATA[جمع کل:]]></text>
             </staticText>
 
-            <textField pattern="#,##0.00">
-                <reportElement x="445" y="20" width="110" height="30" mode="Opaque" backcolor="#D0D0D0"/>
+            <textField pattern="#,##0">
+                <reportElement x="0" y="30" width="110" height="40" mode="Opaque" backcolor="#3498DB"/>
                 <box>
-                    <pen lineWidth="1.0"/>
+                    <pen lineWidth="1.5" lineColor="#2980B9"/>
                 </box>
                 <textElement textAlignment="Center" verticalAlignment="Middle">
-                    <font size="14" isBold="true"/>
+                    <font fontName="DejaVu Sans" size="16" isBold="true" pdfEncoding="Identity-H"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$P{totalAmount}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$P{totalAmount} + " ریال"]]></textFieldExpression>
             </textField>
         </band>
     </summary>
